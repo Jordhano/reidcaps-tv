@@ -4,10 +4,11 @@ class Unit {
     private $id;
     private $name;
     private $lesson;
-    
-    function __construct($id, $name) {
+    private $subject;
+    function __construct($id, $name,$subject) {
         $this->id = $id;
         $this->name = $name;
+        $this->subject = $subject;
     }
     
     public function getId() {
@@ -33,12 +34,18 @@ class Unit {
     public function setLesson($lesson) {
         $this->lesson = $lesson;
     }
+    public function getSubject() {
+        return $this->subject;
+    }
 
-    
-    //Escribir luego para obtener determinada Leccion
-    /*public function getLeccion($id){
-        
-    }*/
+    public function setSubject($subject) {
+        $this->subject = $subject;
+    }
+
+    public function toJSON() {
+        $result ='{"id":"'.$this->id.'", "name":"'.$this->name.'","idSubject":"'.$this->subject.'","lessons":'.count($this->lesson).'}';
+        return $result;
+    }
     
 }
 

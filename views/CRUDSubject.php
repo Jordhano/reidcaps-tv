@@ -41,7 +41,7 @@
             }
             function validation(txt,message){
                 if (txt.val().length == 0){
-                    alert("El Campo " + message+" Se Encuentra Vacio");
+                    alertDialog("Error","El Campo " + message+" Se Encuentra Vacio",false,"");
                     txt.focus();
                     throw "Empty";
                 }
@@ -56,13 +56,14 @@
                         type: "POST",
                         url: "../controllers/controllerSubject.php"
                     }).done(function (data){
-                       alertDialog("Registro Guardado",data,false,"");
                         if (data=="Completado"){
+                            alertDialog("Registro Guardado",data,false,"");
                             $('#btnSearch').click();
                             $('#FormSubject').dialog("close"); 
                             cleanFormSubject();
                         }else{
-                             $('#txtIdSubject').focus();
+                            alertDialog("Error Resgitrando",data,false,"");
+                            $('#txtIdSubject').focus();
                         }    
                     });
                     
@@ -119,21 +120,20 @@
                         $('#FormSubject').dialog("open");
                         
                     });
-    
             }
             function editSubject(){
                 $.ajax({data: {"operation":4,"subject":getJSONSubject(),"clave":eSubject},
                     type: "POST",
                     url: "../controllers/controllerSubject.php"
                 }).done(function (data){
-                    //alert(data);
-                    alertDialog("Registro Actualizado",data,false,"");
                     if (data=="Completado"){
+                        alertDialog("Registro Actualizado",data,false,"");
                         $('#btnSearch').click();
                         $('#FormSubject').dialog("close"); 
                         cleanFormSubject();
                     }else{
-                            $('#txtIdSubject').focus();
+                        alertDialog("Error Actualizando Registro",data,false,"");
+                        $('#txtIdSubject').focus();
                     }    
                 });
             }
@@ -162,20 +162,21 @@
                     type: "POST",
                     url: "../controllers/controllerSubject.php"
                 }).done(function (data){
-                   alertDialog("Registro Eliminado",data,false,"");
+                   
                     if (data=="Completado"){
+                        alertDialog("Registro Eliminado",data,false,"");
                         $('#btnSearch').click();
                         $('#FormSubject').dialog("close"); 
                         cleanFormSubject();
                     }else{
-                        $('#txtIdSubject').focus();
+                      alertDialog("Error Al Parecer El Registro No Esxiste",data,false,"");
                     }    
                 });
             }
             
         </script>
         
-        <title>Manejador de Materia</title>
+        <title>Manejador de Asignatura</title>
     </head>
     <body>
        

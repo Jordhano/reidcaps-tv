@@ -27,10 +27,10 @@
                 $query = "SELECT idUnit, name, idSubject From unit WHERE idSubject='{$subject->getId()}'";
                 $result = mysql_query($query);
                 while ($row = mysql_fetch_array($result)){
-                    $unit = new Unit ($row['idUnit'],$row['name']);
+                    $unit = new Unit ($row['idUnit'],$row['name'],$subject->getId());
 
                     $lessonArray= array();
-                    $query = "SELECT idLesson, name, idUnit From lesson WHERE idUnit='{$lesson->getId()}'";
+                    $query = "SELECT idLesson, name, idUnit From lesson WHERE idUnit='{$unit->getId()}'";
                     $resultLesson = mysql_query($query);
                     while ($rowLesson = mysql_fetch_array($resultLesson)){
                         $lesson = new Lesson($rowLesson['idLesson'], $rowLesson['name']);
@@ -49,6 +49,9 @@
         public function merge($object) {
             $query = "UPDATE subject SET idSubject= '{$object['subject']->getId()}', name= '{$object['subject']->getName()}' WHERE idSubject='{$object['clave']}'";
             mysql_query($query);
+            if (mysql_affected_rows() == -1){
+                return "Existe una materia con la misma clave de materia";
+            }
             return "Completado" ;
         }
         
@@ -64,6 +67,9 @@
         public function remove($object) {
             $query = "DELETE FROM subject WHERE idSubject= '{$object}'";
             mysql_query($query);
+             if (mysql_affected_rows() == -1){
+                return "Al Parecer Esta Asignatura No Existe";
+            }
             return "Completado";
         }
     }
